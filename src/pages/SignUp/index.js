@@ -4,10 +4,12 @@ import { MyGap, ChakraInput, ChakraButton, ChakraLink, ChakraHeading, ChakraAler
 import { useFormik } from "formik";
 import axios from 'axios';
 import * as Yup from 'yup';
+import { useHistory } from 'react-router-dom';
 
 const SignUp = () => {
     const [info, setInfo] = React.useState({ show: false });
     const [loading, setLoading] = React.useState(false);
+    const history = useHistory();
 
     const SignupValidationSchema = Yup.object({
         fullName: Yup.string().required('Full Name is a required field'),
@@ -31,6 +33,9 @@ const SignUp = () => {
                     status: success.status
                 });
                 console.log({success});
+                setTimeout(() => {
+                    history.replace("/signin");
+                }, 2000);
             })
             .catch((error) => {
                 const errorResponse = error.response; 
@@ -127,7 +132,11 @@ const SignUp = () => {
 
 
                 <MyGap height={20} />
-                <ChakraLink normal="Have an account?" highlight="Sign in" />
+                <ChakraLink 
+                    normal="Have an account?" 
+                    highlight="Sign in" 
+                    onClick={() => history.push("/signin")}
+                />
             </Container>
         </Center>
     )

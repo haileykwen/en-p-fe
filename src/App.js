@@ -1,12 +1,9 @@
 import React from "react";
-import { SignIn, SignUp } from "./pages";
+import Routes from "./configs/Routes";
 
 const App = () => {
     return(
-        <div>
-            {/* <SignUp /> */}
-            <SignIn />
-        </div>
+        <Routes />
     )
 }
 

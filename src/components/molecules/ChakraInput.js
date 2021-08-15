@@ -15,7 +15,8 @@ const ChakraInput = ({ id, name, type, value, onChange, onBlur, label, placehold
                 onChange={onChange}
                 onBlur={onBlur}
                 focusBorderColor={constant.COLOR_PRIMARY} 
-                placeholder={placeholder} 
+                placeholder={placeholder}
+                fontSize="13px"
             />
         </div>
     )

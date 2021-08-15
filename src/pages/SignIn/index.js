@@ -4,10 +4,12 @@ import { ChakraAlert, ChakraButton, ChakraHeading, ChakraInput, ChakraLink, MyGa
 import * as Yup from "yup";
 import { useFormik } from 'formik';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const SignIn = () => {
     const [info, setInfo] = React.useState({ show: false });
     const [loading, setLoading] = React.useState(false);
+    const history = useHistory();
 
     const onSignin = (values) => {
         setLoading(true);
@@ -17,7 +19,11 @@ const SignIn = () => {
         })
             .then((success) => {
                 console.log({success});
+                localStorage.setItem("jwt", success.data.token);
+                localStorage.setItem("user_data", JSON.stringify(success.data.data));
+                formik.resetForm();
                 setLoading(false);
+                history.replace("/");
             })
             .catch((error) => {
                 const errorResponse = error.response; 
@@ -102,7 +108,11 @@ const SignIn = () => {
                 </form>
 
                 <MyGap height={20} />
-                <ChakraLink normal="Don't have an account?" highlight="Create account" />
+                <ChakraLink 
+                    normal="Don't have an account?" 
+                    highlight="Create account" 
+                    onClick={() => history.push("/signup")}
+                />
             </Container>
         </Center>
     )

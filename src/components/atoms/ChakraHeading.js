@@ -1,8 +1,8 @@
 import { Heading } from "@chakra-ui/react";
 
-const ChakraHeading = ({ text }) => {
+const ChakraHeading = ({ text, textAlign }) => {
     return (
-        <Heading fontSize="30px" textAlign="center">
+        <Heading fontSize="30px" textAlign={textAlign ? textAlign : "center"}>
             {text}
         </Heading>
     )
