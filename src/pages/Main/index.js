@@ -6,7 +6,8 @@ import {
     MenuButton,
     MenuList,
     MenuItem,
-    Button
+    Button,
+    Container
   } from "@chakra-ui/react"
 
 const Main = () => {
@@ -33,14 +34,16 @@ const Main = () => {
     return (
         render &&
         <div>
-            <Menu>
-                <MenuButton as={Button} mt="30px" ml="30px" >
-                    { userData ? userData.full_name : "loading" }
-                </MenuButton>
-                <MenuList>
-                    <MenuItem onClick={onSignOut}>Sign out</MenuItem>
-                </MenuList>
-            </Menu>
+            <Container maxW="full" paddingTop="4">
+                <Menu>
+                    <MenuButton as={Button}>
+                        { userData ? userData.full_name : "loading" }
+                    </MenuButton>
+                    <MenuList>
+                        <MenuItem onClick={onSignOut}>Sign out</MenuItem>
+                    </MenuList>
+                </Menu>
+            </Container>
             <Phrase />
         </div>
     )

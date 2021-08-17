@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom';
 const SignUp = () => {
     const [info, setInfo] = React.useState({ show: false });
     const [loading, setLoading] = React.useState(false);
+    const [render, setRender] = React.useState(false);
     const history = useHistory();
 
     const SignupValidationSchema = Yup.object({
@@ -63,7 +64,17 @@ const SignUp = () => {
         },
     });
 
+    React.useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("user_data"));
+        if (user) {
+            history.replace("/");
+        } else {
+            setRender(true);
+        }
+    }, []);
+
     return (
+        render &&
         <Center minH="100vh">
             <Container maxW="container.sm">
                 <ChakraHeading text="Wellcome" />

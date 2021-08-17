@@ -5,9 +5,9 @@ import { Main, SignIn, SignUp } from '../pages';
 const Routes = () => {
     return (
         <Switch>
+            <Route path="/" exact component={Main} />
             <Route path="/signin" component={SignIn} />
             <Route path="/signup" component={SignUp} />
-            <Route path="/" exact component={Main} />
         </Switch>
     )
 }
