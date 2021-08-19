@@ -12,9 +12,7 @@ import {
     Stack,
     Radio,
     useToast,
-  } from "@chakra-ui/react"
-import { ChakraButton, ChakraHeading, ChakraInput, ChakraText, MyGap } from '../../components';
-import {
+    Skeleton,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -23,9 +21,11 @@ import {
     ModalBody,
     ModalCloseButton,
   } from "@chakra-ui/react"
+import { ChakraButton, ChakraHeading, ChakraInput, ChakraText, MyGap } from '../../components';
 import axios from 'axios';
 
 const Phrase = () => {
+    const [phrases, setPhrases] = React.useState(null);
     const [exampleType, setExampleType] = React.useState("");
     const [example, setExample] = React.useState("");
     const [meaning, setMeaning] = React.useState("");
@@ -51,9 +51,32 @@ const Phrase = () => {
             }
         ]
     ]);
+    const [modalTitle, setModalTitle] = React.useState("");
     const [loading, setLoading] = React.useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
+
+    React.useEffect(() => {
+        getPhrases();
+    }, [])
+
+    const getPhrases = () => {
+        const userData = JSON.parse(localStorage.getItem("user_data"));
+        console.log({userData});
+        axios.post("https://en-p.herokuapp.com/api/phrase/myphrases", {creator: userData.user_id})
+            .then((success) => {
+                setPhrases(success.data);
+            })
+            .catch((error) => {
+                console.log({error});
+                setPhrases([]);
+            })
+    }
+
+    const onShowModalCreate = () => {
+        setModalTitle("Create new phrase");
+        onOpen();
+    }
 
     const addNewExampleStatement = () => {
         setStatement([...statement, {
@@ -182,6 +205,20 @@ const Phrase = () => {
             })
     }
 
+    const onViewPhrase = (data) => {
+        setModalTitle("View phrase");
+        setExample(data.phrase);
+        setMeaning(data.meaning);
+        setDescription(data.description);
+        setExampleType(data.example_type);
+        if (data.example_type === "statement") {
+            setStatement(JSON.parse(data.example));
+        } else {
+            setConversation(JSON.parse(data.example));
+        }
+        onOpen();
+    }
+
     return (
         <Container maxW="container.sm" minH="100vh" paddingY="30px">
             <ChakraHeading text="Phrases" textAlign="left" />
@@ -197,7 +234,7 @@ const Phrase = () => {
             <ChakraButton
                 label="Create New Phrase"
                 width="max-content"
-                onClick={onOpen}
+                onClick={onShowModalCreate}
             />
 
             <MyGap height={10} />
@@ -209,25 +246,26 @@ const Phrase = () => {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    <Tr>
-                        <Td>inches</Td>
-                        <Td>millimetres (mm)</Td>
-                    </Tr>
-                    <Tr>
-                        <Td>feet</Td>
-                        <Td>centimetres (cm)</Td>
-                    </Tr>
-                    <Tr>
-                        <Td>yards</Td>
-                        <Td>metres (m)</Td>
-                    </Tr>
+                    { phrases !== null && phrases.length !== 0 && phrases.map((phrase, index) => (
+                        <Tr key={index} cursor="pointer" onClick={() => onViewPhrase(phrase)}>
+                            <Td width="1">{index + 1}</Td>
+                            <Td>{phrase.phrase}</Td>
+                        </Tr>
+                    ))}
+
+                    { phrases === null && (
+                        <Tr>
+                            <Td width="1"><Skeleton height="20px" /></Td>
+                            <Td><Skeleton height="20px" /></Td>
+                        </Tr>
+                    )}
                 </Tbody>
             </Table>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Create New Phrase</ModalHeader>
+                    <ModalHeader>{modalTitle}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <ChakraText 
@@ -256,7 +294,7 @@ const Phrase = () => {
                             fontWeight="bold"
                         />
                         <MyGap height={10} />
-                        <RadioGroup fontSize="13px" onChange={(value) => setExampleType(value)}>
+                        <RadioGroup fontSize="13px" onChange={(value) => setExampleType(value)} value={exampleType}>
                             <Stack direction="column">
                                 <Radio fontSize="13px" value="statement" onClick={() => setExampleType("statement")}>
                                     <ChakraText 
