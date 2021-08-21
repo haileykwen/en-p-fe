@@ -2,6 +2,8 @@ import React from 'react';
 import { Phrase, PhraseDetail } from "../";
 import { BrowserRouter, Switch, useHistory } from "react-router-dom";
 import { ChakraHeader, PrivateRoute } from "../../components";
+import PhraseCreate from '../PhraseCreate';
+import PhraseUpdate from '../PhraseUpdate';
 
 const Main = () => {
     const [userData, setUserData] = React.useState(null);
@@ -31,6 +33,8 @@ const Main = () => {
             <Switch>
                 <PrivateRoute exact path="/" component={Phrase} />
                 <PrivateRoute exact path="/phrase-detail/:data" component={PhraseDetail} />
+                <PrivateRoute exact path="/phrase-create" component={PhraseCreate} />
+                <PrivateRoute exact path="/phrase-update/:phrase_id" component={PhraseUpdate} />
             </Switch>
         </BrowserRouter>
     )

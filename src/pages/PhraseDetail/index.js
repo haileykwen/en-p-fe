@@ -199,6 +199,7 @@ const PhraseDetail = () => {
                     label="Update" 
                     width="max-content"
                     backgroundColor="#FBBD08" 
+                    onClick={() => history.push(`/phrase-update/${params.data}`)}
                 />
                 <ChakraButton 
                     label="Delete" 
