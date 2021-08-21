@@ -192,6 +192,7 @@ const Phrase = () => {
                     isClosable: true,
                     position: "top"
                 });
+                getPhrases();
             })
             .catch(() => {
                 setLoading(false);
@@ -208,17 +209,6 @@ const Phrase = () => {
     }
 
     const onViewPhrase = (data) => {
-        // setModalTitle("View phrase");
-        // setExample(data.phrase);
-        // setMeaning(data.meaning);
-        // setDescription(data.description);
-        // setExampleType(data.example_type);
-        // if (data.example_type === "statement") {
-        //     setStatement(JSON.parse(data.example));
-        // } else {
-        //     setConversation(JSON.parse(data.example));
-        // }
-        // onOpen();
         history.push(`/phrase-detail/${data.phrase_id}`);
     }
 
@@ -241,7 +231,7 @@ const Phrase = () => {
             />
 
             <MyGap height={10} />
-            <Table variant="striped">
+            <Table variant="striped" fontSize="13px">
                 <Thead>
                     <Tr>
                         <Th>No</Th>

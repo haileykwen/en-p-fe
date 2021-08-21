@@ -1,7 +1,21 @@
 import React from 'react';
-import { Container, Skeleton, Textarea } from '@chakra-ui/react';
-import { ChakraInput, ChakraText, MyGap } from '../../components';
-import { useParams } from 'react-router-dom';
+import { 
+        Container, 
+        Skeleton, 
+        Stack, 
+        Textarea ,
+        Modal,
+        ModalOverlay,
+        ModalContent,
+        ModalHeader,
+        ModalFooter,
+        ModalBody,
+        ModalCloseButton,
+        useDisclosure,
+        useToast,
+    } from '@chakra-ui/react';
+import { ChakraText, MyGap, ChakraButton } from '../../components';
+import { useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const PhraseDetail = () => {
@@ -11,7 +25,11 @@ const PhraseDetail = () => {
     const [description, setDescription] = React.useState(null);
     const [exampleType, setExampleType] = React.useState(null);
     const [example, setExample] = React.useState(null);
+    const [loadingDelete, setLoadingDelete] = React.useState(false);
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const params = useParams();
+    const toast = useToast();
+    const history = useHistory();
 
     React.useEffect(() => {
         // console.log(params);
@@ -33,6 +51,37 @@ const PhraseDetail = () => {
             .catch((error) => {
                 console.log({error});
             });
+    }
+
+    const onDelete = () => {
+        setLoadingDelete(true);
+        axios.delete(`https://en-p.herokuapp.com/api/phrase/delete/${phraseId}`)
+            .then(() => {
+                setLoadingDelete(false);
+                onClose();
+                toast({
+                    title: "Phrase deleted.",
+                    description: "We've deleted your phrase for you.",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                    position: "top"
+                });
+                history.replace("/");
+            })
+            .catch((error) => {
+                console.log({error});
+                setLoadingDelete(false);
+                onClose();
+                toast({
+                    title: "Deleting phrase failed.",
+                    description: "We are sorry for something wrong. Please try again later.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                    position: "top"
+                });
+            })
     }
 
     return (
@@ -116,21 +165,21 @@ const PhraseDetail = () => {
                     {item.map((chat, indexChat) => (
                         <React.Fragment key={indexChat}>
                             <MyGap height={15} />
-                            <ChakraInput
+                            <Textarea
                                 placeholder="Example"
                                 value={chat.example}  
                                 readOnly
                                 resize="none"
                                 size="sm"
                             />
-                            <ChakraInput
+                            <Textarea
                                 placeholder="Meaning"
                                 value={chat.meaning}
                                 readOnly
                                 resize="none"
                                 size="sm"
                             />
-                            <ChakraInput
+                            <Textarea
                                 placeholder="Description"
                                 value={chat.description}
                                 readOnly
@@ -141,6 +190,52 @@ const PhraseDetail = () => {
                     ))}
                 </React.Fragment>
             ))}
+
+            {example && <MyGap height={20} />}
+
+            {example && 
+            <Stack direction="row">
+                <ChakraButton 
+                    label="Update" 
+                    width="max-content"
+                    backgroundColor="#FBBD08" 
+                />
+                <ChakraButton 
+                    label="Delete" 
+                    width="max-content"
+                    backgroundColor="#C82333" 
+                    onClick={onOpen}
+                />
+            </Stack>
+            }
+
+            <Modal isOpen={isOpen} onClose={onClose} size="xs" isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Confirmation</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <ChakraText text="Are you sure want to delete this phrase?" />
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <ChakraButton 
+                            label="Delete" 
+                            width="max-content"
+                            backgroundColor="#C82333"
+                            onClick={onDelete}
+                            loading={loadingDelete}
+                        />
+                        <MyGap width={10} />
+                        <ChakraButton 
+                            label="Cancel" 
+                            width="max-content"
+                            backgroundColor="#FBBD08"
+                            onClick={onClose}
+                        />
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </Container>
     )
 }
