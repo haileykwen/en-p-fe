@@ -23,6 +23,7 @@ import {
   } from "@chakra-ui/react"
 import { ChakraButton, ChakraHeading, ChakraInput, ChakraText, MyGap } from '../../components';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const Phrase = () => {
     const [phrases, setPhrases] = React.useState(null);
@@ -55,6 +56,7 @@ const Phrase = () => {
     const [loading, setLoading] = React.useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
+    const history = useHistory();
 
     React.useEffect(() => {
         getPhrases();
@@ -62,7 +64,7 @@ const Phrase = () => {
 
     const getPhrases = () => {
         const userData = JSON.parse(localStorage.getItem("user_data"));
-        console.log({userData});
+        // console.log({userData});
         axios.post("https://en-p.herokuapp.com/api/phrase/myphrases", {creator: userData.user_id})
             .then((success) => {
                 setPhrases(success.data);
@@ -206,21 +208,22 @@ const Phrase = () => {
     }
 
     const onViewPhrase = (data) => {
-        setModalTitle("View phrase");
-        setExample(data.phrase);
-        setMeaning(data.meaning);
-        setDescription(data.description);
-        setExampleType(data.example_type);
-        if (data.example_type === "statement") {
-            setStatement(JSON.parse(data.example));
-        } else {
-            setConversation(JSON.parse(data.example));
-        }
-        onOpen();
+        // setModalTitle("View phrase");
+        // setExample(data.phrase);
+        // setMeaning(data.meaning);
+        // setDescription(data.description);
+        // setExampleType(data.example_type);
+        // if (data.example_type === "statement") {
+        //     setStatement(JSON.parse(data.example));
+        // } else {
+        //     setConversation(JSON.parse(data.example));
+        // }
+        // onOpen();
+        history.push(`/phrase-detail/${data.phrase_id}`);
     }
 
     return (
-        <Container maxW="container.sm" minH="100vh" paddingY="30px">
+        <Container maxW="container.sm" minH="calc(100vh - 102px)" paddingY="10px">
             <ChakraHeading text="Phrases" textAlign="left" />
             <MyGap height={10} />
             <ChakraText

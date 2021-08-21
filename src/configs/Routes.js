@@ -1,13 +1,14 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
+import { PrivateRoute, PublicRoute } from "../components";
 import { Main, SignIn, SignUp } from '../pages';
 
 const Routes = () => {
     return (
         <Switch>
-            <Route path="/" exact component={Main} />
-            <Route path="/signin" component={SignIn} />
-            <Route path="/signup" component={SignUp} />
+            <PublicRoute path="/signin" component={SignIn}/>
+            <PublicRoute path="/signup" component={SignUp}/>
+            <PrivateRoute path="/" component={Main} />
         </Switch>
     )
 }

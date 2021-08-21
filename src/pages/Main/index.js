@@ -1,25 +1,12 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-import Phrase from '../Phrase';
-import {
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    Button,
-    Container
-  } from "@chakra-ui/react"
+import { Phrase, PhraseDetail } from "../";
+import { BrowserRouter, Switch, useHistory } from "react-router-dom";
+import { ChakraHeader, PrivateRoute } from "../../components";
 
 const Main = () => {
     const [userData, setUserData] = React.useState(null);
     const [render, setRender] = React.useState(false);
     const history = useHistory();
-
-    const onSignOut = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user_data");
-        history.replace("/signin");
-    }
 
     React.useEffect(() => {
         const user = JSON.parse(localStorage.getItem("user_data"));
@@ -31,21 +18,21 @@ const Main = () => {
         }
     }, []);
 
+    const onSignOut = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user_data");
+        history.replace("/signin");
+    }
+
     return (
         render &&
-        <div>
-            <Container maxW="full" paddingTop="4">
-                <Menu>
-                    <MenuButton as={Button}>
-                        { userData ? userData.full_name : "loading" }
-                    </MenuButton>
-                    <MenuList>
-                        <MenuItem onClick={onSignOut}>Sign out</MenuItem>
-                    </MenuList>
-                </Menu>
-            </Container>
-            <Phrase />
-        </div>
+        <BrowserRouter>
+            <ChakraHeader userData={userData} onSignOut={onSignOut} />
+            <Switch>
+                <PrivateRoute exact path="/" component={Phrase} />
+                <PrivateRoute exact path="/phrase-detail/:data" component={PhraseDetail} />
+            </Switch>
+        </BrowserRouter>
     )
 }
 
