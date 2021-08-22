@@ -136,7 +136,7 @@ const SignUp = () => {
                 <ChakraLink 
                     normal="Have an account?" 
                     highlight="Sign in" 
-                    onClick={() => history.push("/signin")}
+                    onClick={() => history.push(`${URL.SIGNIN}`)}
                 />
             </Container>
         </Center>

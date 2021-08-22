@@ -112,7 +112,7 @@ const SignIn = () => {
                 <ChakraLink 
                     normal="Don't have an account?" 
                     highlight="Create account" 
-                    onClick={() => history.push("/signup")}
+                    onClick={() => history.push(`${URL.SIGNUP}`)}
                 />
             </Container>
         </Center>
