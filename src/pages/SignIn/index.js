@@ -5,11 +5,11 @@ import * as Yup from "yup";
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { URL } from '../../contants/Url';
 
 const SignIn = () => {
     const [info, setInfo] = React.useState({ show: false });
     const [loading, setLoading] = React.useState(false);
-    const [render, setRender] = React.useState(false);
     const history = useHistory();
 
     const onSignin = (values) => {
@@ -24,7 +24,7 @@ const SignIn = () => {
                 localStorage.setItem("user_data", JSON.stringify(success.data.data));
                 formik.resetForm();
                 setLoading(false);
-                history.replace("/");
+                history.replace(`${URL.MAIN}`);
             })
             .catch((error) => {
                 const errorResponse = error.response; 
@@ -56,17 +56,7 @@ const SignIn = () => {
         },
     });
 
-    React.useEffect(() => {
-        const user = JSON.parse(localStorage.getItem("user_data"));
-        if (user) {
-            history.replace("/");
-        } else {
-            setRender(true);
-        }
-    }, []);
-
     return (
-        render &&
         <Center minH="100vh">
             <Container maxW="container.sm">
                 <ChakraHeading text="Wellcome Back" />

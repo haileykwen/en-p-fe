@@ -11,7 +11,8 @@ import {
   } from "@chakra-ui/react"
 import { ChakraButton, ChakraHeading, ChakraText, MyGap } from '../../components';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { URL } from "../../contants/Url";
+import { NavLink as RouterLink, useHistory } from 'react-router-dom';
 
 const Phrase = () => {
     const [phrases, setPhrases] = React.useState(null);
@@ -34,10 +35,6 @@ const Phrase = () => {
             })
     }
 
-    const onViewPhrase = (data) => {
-        history.push(`/phrase-detail/${data.phrase_id}`);
-    }
-
     return (
         <Container maxW="container.sm" minH="calc(100vh - 102px)" paddingY="10px">
             <ChakraHeading text="Phrases" textAlign="left" />
@@ -53,7 +50,7 @@ const Phrase = () => {
             <ChakraButton
                 label="Create New Phrase"
                 width="max-content"
-                onClick={() => history.push("/phrase-create")}
+                onClick={() => history.push(`${URL.PHRASE_CREATE}`)}
             />
 
             <MyGap height={10} />
@@ -66,9 +63,17 @@ const Phrase = () => {
                 </Thead>
                 <Tbody>
                     { phrases !== null && phrases.length !== 0 && phrases.map((phrase, index) => (
-                        <Tr key={index} cursor="pointer" onClick={() => onViewPhrase(phrase)}>
-                            <Td width="1">{index + 1}</Td>
-                            <Td>{phrase.phrase}</Td>
+                        <Tr key={index} cursor="pointer">
+                            <Td width="1">
+                                <RouterLink to={URL.PHRASE_DETAIL.replace(':slug', phrase.phrase_id)}>
+                                    {index + 1}
+                                </RouterLink>
+                            </Td>
+                            <Td>
+                                <RouterLink to={URL.PHRASE_DETAIL.replace(':slug', phrase.phrase_id)}>
+                                    {phrase.phrase}
+                                </RouterLink>
+                            </Td>
                         </Tr>
                     ))}
 

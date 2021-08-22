@@ -1,9 +1,10 @@
 import React from 'react';
 import { Phrase, PhraseDetail } from "../";
-import { BrowserRouter, Switch, useHistory } from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch, useHistory } from "react-router-dom";
 import { ChakraHeader, PrivateRoute } from "../../components";
 import PhraseCreate from '../PhraseCreate';
 import PhraseUpdate from '../PhraseUpdate';
+import { URL } from "../../contants/Url";
 
 const Main = () => {
     const [userData, setUserData] = React.useState(null);
@@ -16,14 +17,14 @@ const Main = () => {
         if (user) {
             setRender(true);
         } else {
-            history.replace("/signin");
+            history.replace(`${URL.SIGNIN}`);
         }
     }, []);
 
     const onSignOut = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user_data");
-        history.replace("/signin");
+        history.replace(`${URL.SIGNIN}`);
     }
 
     return (
@@ -31,10 +32,11 @@ const Main = () => {
         <BrowserRouter>
             <ChakraHeader userData={userData} onSignOut={onSignOut} />
             <Switch>
-                <PrivateRoute exact path="/" component={Phrase} />
-                <PrivateRoute exact path="/phrase-detail/:data" component={PhraseDetail} />
-                <PrivateRoute exact path="/phrase-create" component={PhraseCreate} />
-                <PrivateRoute exact path="/phrase-update/:phrase_id" component={PhraseUpdate} />
+                <Route path="/" render={() => <Redirect to={URL.MAIN} />} exact />
+                <PrivateRoute exact path={URL.MAIN} component={Phrase} />
+                <PrivateRoute exact path={URL.PHRASE_DETAIL} component={PhraseDetail} />
+                <PrivateRoute exact path={URL.PHRASE_CREATE} component={PhraseCreate} />
+                <PrivateRoute exact path={URL.PHRASE_UPDATE} component={PhraseUpdate} />
             </Switch>
         </BrowserRouter>
     )

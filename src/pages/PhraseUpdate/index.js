@@ -11,6 +11,7 @@ import {
     Skeleton,
     Textarea,
   } from "@chakra-ui/react"
+import { URL } from '../../contants/Url';
 
 const PhraseUpdate = () => {
     const [phraseId, setPhraseId] = React.useState("");
@@ -45,11 +46,11 @@ const PhraseUpdate = () => {
     const params = useParams();
 
     React.useEffect(() => {
-        if (params.phrase_id) getPhrase();
+        if (params.slug) getPhrase();
     }, []);
 
     const getPhrase = () => {
-        axios.post("https://en-p.herokuapp.com/api/phrase/view", {phrase_id: params.phrase_id})
+        axios.post("https://en-p.herokuapp.com/api/phrase/view", {phrase_id: params.slug})
             .then((success) => {
                 // console.log({success});
                 let resp = success.data[0];
@@ -179,7 +180,7 @@ const PhraseUpdate = () => {
                     isClosable: true,
                     position: "top"
                 });
-                history.replace("/");
+                history.replace(`${URL.PHRASE}`);
             })
             .catch(() => {
                 setLoading(false);

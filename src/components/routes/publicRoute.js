@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { URL } from "../../contants/Url";
 
 // handle the public routes
 const PublicRoute = ({ component: Component, ...rest }) => {
@@ -11,7 +12,7 @@ const PublicRoute = ({ component: Component, ...rest }) => {
     return (
         <Route
             {...rest}
-            render={(props) => !checkUser() ? <Component {...props} /> : <Redirect to={{ pathname: '/' }} />}
+            render={(props) => !checkUser() ? <Component {...props} /> : <Redirect to={{ pathname: `${URL.MAIN}` }} />}
         />
     )
 }

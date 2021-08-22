@@ -15,8 +15,9 @@ import {
         useToast,
     } from '@chakra-ui/react';
 import { ChakraText, MyGap, ChakraButton } from '../../components';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, NavLink as RouterLink } from 'react-router-dom';
 import axios from 'axios';
+import { URL } from '../../contants/Url';
 
 const PhraseDetail = () => {
     const [phraseId, setPhraseId] = React.useState(null);
@@ -33,7 +34,7 @@ const PhraseDetail = () => {
 
     React.useEffect(() => {
         // console.log(params);
-        getPhrase(params.data);
+        getPhrase(params.slug);
     }, []);
 
     const getPhrase = (id) => {
@@ -67,7 +68,7 @@ const PhraseDetail = () => {
                     isClosable: true,
                     position: "top"
                 });
-                history.replace("/");
+                history.replace(`${URL.PHRASE}`);
             })
             .catch((error) => {
                 console.log({error});
@@ -172,6 +173,7 @@ const PhraseDetail = () => {
                                 resize="none"
                                 size="sm"
                             />
+                            <MyGap height={5} />
                             <Textarea
                                 placeholder="Meaning"
                                 value={chat.meaning}
@@ -179,6 +181,7 @@ const PhraseDetail = () => {
                                 resize="none"
                                 size="sm"
                             />
+                            <MyGap height={5} />
                             <Textarea
                                 placeholder="Description"
                                 value={chat.description}
@@ -195,12 +198,13 @@ const PhraseDetail = () => {
 
             {example && 
             <Stack direction="row">
-                <ChakraButton 
-                    label="Update" 
-                    width="max-content"
-                    backgroundColor="#FBBD08" 
-                    onClick={() => history.push(`/phrase-update/${params.data}`)}
-                />
+                <RouterLink to={URL.PHRASE_UPDATE.replace(':slug', params.slug)}>
+                    <ChakraButton 
+                        label="Update" 
+                        width="max-content"
+                        backgroundColor="#FBBD08"
+                    />
+                </RouterLink>
                 <ChakraButton 
                     label="Delete" 
                     width="max-content"

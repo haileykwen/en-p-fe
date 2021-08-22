@@ -9,7 +9,8 @@ import {
     Radio,
     useToast,
     Textarea,
-  } from "@chakra-ui/react"
+  } from "@chakra-ui/react";
+import { URL } from "../../contants/Url";
 
 const PhraseCreate = () => {
     const [exampleType, setExampleType] = React.useState("");
@@ -152,7 +153,7 @@ const PhraseCreate = () => {
                     isClosable: true,
                     position: "top"
                 });
-                history.replace("/");
+                history.replace(`${URL.MAIN}`);
             })
             .catch(() => {
                 setLoading(false);
