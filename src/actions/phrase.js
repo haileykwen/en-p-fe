@@ -22,7 +22,7 @@ const post_getPhrase = (data, callbackSuccess, callbackError) => {
 }
 
 const delete_phrase = (data, callbackSuccess, callbackError) => {
-    axios.post(`https://en-p.herokuapp.com${API.PHRASE_DELETE}/${data}`)
+    axios.delete(`https://en-p.herokuapp.com${API.PHRASE_DELETE}/${data}`)
         .then((success) => {
             callbackSuccess && callbackSuccess(success);
         })
@@ -32,7 +32,7 @@ const delete_phrase = (data, callbackSuccess, callbackError) => {
 }
 
 const put_phrase = (data, callbackSuccess, callbackError) => {
-    axios.post(`https://en-p.herokuapp.com${API.PHRASE_UPDATE}`, data)
+    axios.put(`https://en-p.herokuapp.com${API.PHRASE_UPDATE}`, data)
         .then((success) => {
             callbackSuccess && callbackSuccess(success);
         })

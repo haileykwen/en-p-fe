@@ -2,7 +2,7 @@ import axios from "axios";
 import { API } from "../contants/Url";
 
 const post_signup = (data, callbackSuccess, callbackError) => {
-    axios.post(`http://en-p.herokuapp.com${API.AUTH_SIGNUP}`, data)
+    axios.post(`https://en-p.herokuapp.com${API.AUTH_SIGNUP}`, data)
         .then((success) => {
             callbackSuccess && callbackSuccess(success);
         })
@@ -12,7 +12,7 @@ const post_signup = (data, callbackSuccess, callbackError) => {
 }
 
 const post_signin = (data, callbackSuccess, callbackError) => {
-    axios.post(`http://en-p.herokuapp.com${API.AUTH_SIGNIN}`, data)
+    axios.post(`https://en-p.herokuapp.com${API.AUTH_SIGNIN}`, data)
         .then((success) => {
             callbackSuccess && callbackSuccess(success);
         })

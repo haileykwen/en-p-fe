@@ -1,6 +1,5 @@
 import React from 'react';
 import { ChakraButton, ChakraText, MyGap } from '../../components';
-import axios from 'axios';
 import { useHistory, useParams } from 'react-router-dom';
 import {
     Container,
