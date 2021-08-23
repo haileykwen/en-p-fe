@@ -11,6 +11,7 @@ import {
     Textarea,
   } from "@chakra-ui/react";
 import { URL } from "../../contants/Url";
+import { post_createPhrase } from '../../actions/phrase';
 
 const PhraseCreate = () => {
     const [exampleType, setExampleType] = React.useState("");
@@ -135,15 +136,18 @@ const PhraseCreate = () => {
         } else {
             exampleData = JSON.stringify(conversation);
         }
-        axios.post("https://en-p.herokuapp.com/api/phrase/create",{
+    
+        const data = {
             creator: userData.user_id,
             phrase: example,
             meaning,
             description,
             example_type: exampleType,
             example: exampleData
-        })
-            .then(() => {
+        }
+        post_createPhrase(
+            data,
+            () => {
                 setLoading(false);
                 toast({
                     title: "Phrase created.",
@@ -154,8 +158,8 @@ const PhraseCreate = () => {
                     position: "top"
                 });
                 history.replace(`${URL.MAIN}`);
-            })
-            .catch(() => {
+            },
+            () => {
                 setLoading(false);
                 toast({
                     title: "Error create phrase.",
@@ -165,7 +169,8 @@ const PhraseCreate = () => {
                     isClosable: true,
                     position: "top"
                 });
-            })
+            }
+        );
     }
 
     return (

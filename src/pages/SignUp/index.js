@@ -2,10 +2,10 @@ import React from 'react';
 import { Center, Container, Text } from '@chakra-ui/react';
 import { MyGap, ChakraInput, ChakraButton, ChakraLink, ChakraHeading, ChakraAlert } from '../../components';
 import { useFormik } from "formik";
-import axios from 'axios';
 import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import { URL } from '../../contants/Url';
+import { post_signup } from '../../actions/auth';
 
 const SignUp = () => {
     const [info, setInfo] = React.useState({ show: false });
@@ -20,12 +20,15 @@ const SignUp = () => {
 
     const onCreateAccount = (values) => {
         setLoading(true);
-        axios.post("https://en-p.herokuapp.com/api/auth/signup", {
+        const data = {
             full_name: values.fullName,
             email: values.email,
             password: values.password
-        })
-            .then((success) => {
+        }
+        post_signup(
+            data,
+            (success) => {
+                // console.log({success});
                 setLoading(false);
                 formik.resetForm();
                 setInfo({
@@ -33,12 +36,12 @@ const SignUp = () => {
                     message: success.data.message,
                     status: success.status
                 });
-                console.log({success});
                 setTimeout(() => {
                     history.replace(`${URL.SIGNIN}`);
                 }, 2000);
-            })
-            .catch((error) => {
+            },
+            (error) => {
+                // console.log({error});
                 const errorResponse = error.response; 
                 setLoading(false);
                 setInfo({
@@ -46,8 +49,8 @@ const SignUp = () => {
                     message: errorResponse.data.message,
                     status: errorResponse.status
                 });
-                console.log({error});
-            });
+            }
+        );
     }
 
     const formik = useFormik({
@@ -59,7 +62,7 @@ const SignUp = () => {
         validationSchema: SignupValidationSchema,
         validateOnChange: true,
         validateOnBlur: false,
-        onSubmit: values => {
+        onSubmit: (values) => {
             onCreateAccount(values);
         },
     });

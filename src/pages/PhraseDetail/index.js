@@ -16,8 +16,8 @@ import {
     } from '@chakra-ui/react';
 import { ChakraText, MyGap, ChakraButton } from '../../components';
 import { useHistory, useParams, NavLink as RouterLink } from 'react-router-dom';
-import axios from 'axios';
 import { URL } from '../../contants/Url';
+import { delete_phrase, post_getPhrase } from '../../actions/phrase';
 
 const PhraseDetail = () => {
     const [phraseId, setPhraseId] = React.useState(null);
@@ -38,8 +38,10 @@ const PhraseDetail = () => {
     }, []);
 
     const getPhrase = (id) => {
-        axios.post("https://en-p.herokuapp.com/api/phrase/view", {phrase_id: id})
-            .then((success) => {
+        const data = { phrase_id: id }
+        post_getPhrase(
+            data,
+            (success) => {
                 // console.log({success});
                 let resp = success.data[0];
                 setPhraseId(resp.phrase_id);
@@ -48,16 +50,18 @@ const PhraseDetail = () => {
                 setDescription(resp.description);
                 setExampleType(resp.example_type);
                 setExample(JSON.parse(resp.example));
-            })
-            .catch((error) => {
+            },
+            (error) => {
                 console.log({error});
-            });
+            }
+        );
     }
 
     const onDelete = () => {
         setLoadingDelete(true);
-        axios.delete(`https://en-p.herokuapp.com/api/phrase/delete/${phraseId}`)
-            .then(() => {
+        delete_phrase(
+            phraseId,
+            () => {
                 setLoadingDelete(false);
                 onClose();
                 toast({
@@ -69,9 +73,8 @@ const PhraseDetail = () => {
                     position: "top"
                 });
                 history.replace(`${URL.PHRASE}`);
-            })
-            .catch((error) => {
-                console.log({error});
+            },
+            () => {
                 setLoadingDelete(false);
                 onClose();
                 toast({
@@ -82,7 +85,8 @@ const PhraseDetail = () => {
                     isClosable: true,
                     position: "top"
                 });
-            })
+            }
+        );
     }
 
     return (

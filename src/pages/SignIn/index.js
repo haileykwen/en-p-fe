@@ -3,9 +3,9 @@ import { Center, Container, Text } from '@chakra-ui/react';
 import { ChakraAlert, ChakraButton, ChakraHeading, ChakraInput, ChakraLink, MyGap } from '../../components';
 import * as Yup from "yup";
 import { useFormik } from 'formik';
-import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { URL } from '../../contants/Url';
+import { post_signin } from '../../actions/auth';
 
 const SignIn = () => {
     const [info, setInfo] = React.useState({ show: false });
@@ -14,28 +14,31 @@ const SignIn = () => {
 
     const onSignin = (values) => {
         setLoading(true);
-        axios.post("https://en-p.herokuapp.com/api/auth/signin", {
+        const data = {
             email: values.email,
             password: values.password
-        })
-            .then((success) => {
-                console.log({success});
+        }
+        post_signin(
+            data,
+            (success) => {
+                // console.log({success});
                 localStorage.setItem("jwt", success.data.token);
                 localStorage.setItem("user_data", JSON.stringify(success.data.data));
                 formik.resetForm();
                 setLoading(false);
                 history.replace(`${URL.MAIN}`);
-            })
-            .catch((error) => {
+            },
+            (error) => {
+                // console.log({error});
                 const errorResponse = error.response; 
                 setInfo({
                     show: true,
                     message: errorResponse.data.message,
                     status: errorResponse.status
                 });
-                console.log({error});
                 setLoading(false);
-            });
+            }
+        );
     }
 
     const signInValidationSchema = Yup.object({
@@ -51,7 +54,7 @@ const SignIn = () => {
         validationSchema: signInValidationSchema,
         validateOnChange: true,
         validateOnBlur: false,
-        onSubmit: values => {
+        onSubmit: (values) => {
             onSignin(values);
         },
     });

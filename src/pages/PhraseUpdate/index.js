@@ -12,6 +12,7 @@ import {
     Textarea,
   } from "@chakra-ui/react"
 import { URL } from '../../contants/Url';
+import { post_getPhrase, put_phrase } from '../../actions/phrase';
 
 const PhraseUpdate = () => {
     const [phraseId, setPhraseId] = React.useState("");
@@ -50,8 +51,10 @@ const PhraseUpdate = () => {
     }, []);
 
     const getPhrase = () => {
-        axios.post("https://en-p.herokuapp.com/api/phrase/view", {phrase_id: params.slug})
-            .then((success) => {
+        const data = { phrase_id: params.slug }
+        post_getPhrase(
+            data,
+            (success) => {
                 // console.log({success});
                 let resp = success.data[0];
                 setPhraseId(resp.phrase_id);
@@ -64,10 +67,11 @@ const PhraseUpdate = () => {
                 } else {
                     setConversation(JSON.parse(resp.example));
                 }
-            })
-            .catch((error) => {
+            },
+            (error) => {
                 console.log({error});
-            });
+            }
+        );
     }
 
     const addNewExampleStatement = () => {
@@ -162,15 +166,18 @@ const PhraseUpdate = () => {
         } else {
             exampleData = JSON.stringify(conversation);
         }
-        axios.put("https://en-p.herokuapp.com/api/phrase/update",{
+
+        const data = {
             phrase_id: phraseId,
             phrase: example,
             meaning,
             description,
             example_type: exampleType,
             example: exampleData
-        })
-            .then(() => {
+        }
+        put_phrase(
+            data,
+            () => {
                 setLoading(false);
                 toast({
                     title: "Phrase updated.",
@@ -181,8 +188,8 @@ const PhraseUpdate = () => {
                     position: "top"
                 });
                 history.replace(`${URL.PHRASE}`);
-            })
-            .catch(() => {
+            },
+            () => {
                 setLoading(false);
                 toast({
                     title: "Error update phrase.",
@@ -192,7 +199,8 @@ const PhraseUpdate = () => {
                     isClosable: true,
                     position: "top"
                 });
-            })
+            }
+        );
     }
 
     return (

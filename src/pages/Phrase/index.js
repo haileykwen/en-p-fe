@@ -10,9 +10,9 @@ import {
     Skeleton,
   } from "@chakra-ui/react"
 import { ChakraButton, ChakraHeading, ChakraText, MyGap } from '../../components';
-import axios from 'axios';
 import { URL } from "../../contants/Url";
 import { NavLink as RouterLink, useHistory } from 'react-router-dom';
+import { post_getMyPhrases } from '../../actions/phrase';
 
 const Phrase = () => {
     const [phrases, setPhrases] = React.useState(null);
@@ -24,15 +24,12 @@ const Phrase = () => {
 
     const getPhrases = () => {
         const userData = JSON.parse(localStorage.getItem("user_data"));
-        // console.log({userData});
-        axios.post("https://en-p.herokuapp.com/api/phrase/myphrases", {creator: userData.user_id})
-            .then((success) => {
-                setPhrases(success.data);
-            })
-            .catch((error) => {
-                console.log({error});
-                setPhrases([]);
-            })
+        const data = { creator: userData.user_id }
+        post_getMyPhrases(
+            data,
+            (success) => setPhrases(success.data),
+            () => setPhrases([])
+        );
     }
 
     return (
