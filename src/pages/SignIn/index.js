@@ -1,11 +1,11 @@
 import React from 'react';
 import { Center, Container, Text } from '@chakra-ui/react';
 import { ChakraAlert, ChakraButton, ChakraHeading, ChakraInput, ChakraLink, MyGap } from '../../components';
-import * as Yup from "yup";
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
 import { URL } from '../../contants/Url';
 import { post_signin } from '../../actions/auth';
+import { signinInitialValues, signInValidationSchema } from '../../contants/Validation';
 
 const SignIn = () => {
     const [info, setInfo] = React.useState({ show: false });
@@ -41,16 +41,8 @@ const SignIn = () => {
         );
     }
 
-    const signInValidationSchema = Yup.object({
-        email: Yup.string().required('Email is a required field'),
-        password: Yup.string().required('Password is a required field').min(6, 'Password must be at least 6 characters')
-    });
-
     const formik = useFormik({
-        initialValues: {
-            email: '',
-            password: ''
-        },
+        initialValues: signinInitialValues,
         validationSchema: signInValidationSchema,
         validateOnChange: true,
         validateOnBlur: false,

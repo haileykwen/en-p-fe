@@ -2,21 +2,15 @@ import React from 'react';
 import { Center, Container, Text } from '@chakra-ui/react';
 import { MyGap, ChakraInput, ChakraButton, ChakraLink, ChakraHeading, ChakraAlert } from '../../components';
 import { useFormik } from "formik";
-import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import { URL } from '../../contants/Url';
 import { post_signup } from '../../actions/auth';
+import { signupInitialValues, signupValidationSchema } from '../../contants/Validation';
 
 const SignUp = () => {
     const [info, setInfo] = React.useState({ show: false });
     const [loading, setLoading] = React.useState(false);
     const history = useHistory();
-
-    const SignupValidationSchema = Yup.object({
-        fullName: Yup.string().required('Full Name is a required field'),
-        email: Yup.string().required('Email is a required field'),
-        password: Yup.string().required('Password is a required field').min(6, 'Password must be at least 6 characters')
-    });
 
     const onCreateAccount = (values) => {
         setLoading(true);
@@ -54,12 +48,8 @@ const SignUp = () => {
     }
 
     const formik = useFormik({
-        initialValues: {
-            fullName: '',
-            email: '',
-            password: ''
-        },
-        validationSchema: SignupValidationSchema,
+        initialValues: signupInitialValues,
+        validationSchema: signupValidationSchema,
         validateOnChange: true,
         validateOnBlur: false,
         onSubmit: (values) => {
