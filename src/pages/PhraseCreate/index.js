@@ -11,60 +11,25 @@ import {
   } from "@chakra-ui/react";
 import { URL } from "../../contants/Url";
 import { post_phrase } from '../../actions/phrase';
+import { conversationExampleInitialValue, statementExampleInitialValue } from '../../contants/Validation';
 
 const PhraseCreate = () => {
     const [exampleType, setExampleType] = React.useState("");
     const [example, setExample] = React.useState("");
     const [meaning, setMeaning] = React.useState("");
     const [description, setDescription] = React.useState("");
-    const [statement, setStatement] = React.useState([
-        {
-            example: "",
-            meaning: "",
-            description: ""
-        }
-    ]);
-    const [conversation, setConversation] = React.useState([
-        [
-            {
-                example: "",
-                meaning: "",
-                description: ""
-            },
-            {
-                example: "",
-                meaning: "",
-                description: ""
-            }
-        ]
-    ]);
+    const [statement, setStatement] = React.useState(statementExampleInitialValue);
+    const [conversation, setConversation] = React.useState(conversationExampleInitialValue);
     const [loading, setLoading] = React.useState(false);
     const toast = useToast();
     const history = useHistory();
 
     const addNewExampleStatement = () => {
-        setStatement([...statement, {
-            example: "",
-            meaning: "",
-            description: ""
-        }]);
+        setStatement([...statement, statementExampleInitialValue[0]]);
     }
 
     const addNewExampleConversation = () => {
-        setConversation([...conversation,
-            [
-                {
-                    example: "",
-                    meaning: "",
-                    description: ""
-                },
-                {
-                    example: "",
-                    meaning: "",
-                    description: ""
-                }
-            ]
-        ]);
+        setConversation([...conversation, conversationExampleInitialValue[0]]);
     }
 
     const deleteExampleStatement = (index) => {
@@ -105,11 +70,7 @@ const PhraseCreate = () => {
                 item.map((chat, chatIndex) => {
                     temporChat.push(chat);
                 });
-                temporChat.push({
-                    example: "",
-                    meaning: "",
-                    description: ""
-                });
+                temporChat.push(statementExampleInitialValue[0]);
                 tempor.push(temporChat);
             }
         });

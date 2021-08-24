@@ -48,7 +48,7 @@ const SignIn = () => {
         validateOnBlur: false,
         onSubmit: (values) => {
             onSignin(values);
-        },
+        }
     });
 
     return (

@@ -22,9 +22,35 @@ const signinInitialValues = {
     password: ''
 }
 
+const statementExampleInitialValue = [
+    {
+        example: "",
+        meaning: "",
+        description: ""
+    }
+]
+
+
+const conversationExampleInitialValue = [
+    [
+        {
+            example: "",
+            meaning: "",
+            description: ""
+        },
+        {
+            example: "",
+            meaning: "",
+            description: ""
+        }
+    ]
+]
+
 export {
     signupValidationSchema,
     signInValidationSchema,
     signupInitialValues,
-    signinInitialValues
+    signinInitialValues,
+    statementExampleInitialValue,
+    conversationExampleInitialValue
 }
