@@ -38,9 +38,8 @@ const PhraseDetail = () => {
     }, []);
 
     const getPhrase = (id) => {
-        const data = { phrase_id: id }
         get_phrase(
-            data,
+            id,
             (success) => {
                 // console.log({success});
                 let resp = success.data[0];

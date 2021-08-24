@@ -24,9 +24,8 @@ const Phrase = () => {
 
     const getPhrases = () => {
         const userData = JSON.parse(localStorage.getItem("user_data"));
-        const data = { creator: userData.user_id }
         get_myPhrases(
-            data,
+            userData.user_id,
             (success) => setPhrases(success.data),
             () => setPhrases([])
         );
