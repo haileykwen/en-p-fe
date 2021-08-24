@@ -17,7 +17,7 @@ import {
 import { ChakraText, MyGap, ChakraButton } from '../../components';
 import { useHistory, useParams, NavLink as RouterLink } from 'react-router-dom';
 import { URL } from '../../contants/Url';
-import { delete_phrase, post_getPhrase } from '../../actions/phrase';
+import { delete_phrase, get_phrase } from '../../actions/phrase';
 
 const PhraseDetail = () => {
     const [phraseId, setPhraseId] = React.useState(null);
@@ -39,7 +39,7 @@ const PhraseDetail = () => {
 
     const getPhrase = (id) => {
         const data = { phrase_id: id }
-        post_getPhrase(
+        get_phrase(
             data,
             (success) => {
                 // console.log({success});

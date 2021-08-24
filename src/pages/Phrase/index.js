@@ -12,7 +12,7 @@ import {
 import { ChakraButton, ChakraHeading, ChakraText, MyGap } from '../../components';
 import { URL } from "../../contants/Url";
 import { NavLink as RouterLink, useHistory } from 'react-router-dom';
-import { post_getMyPhrases } from '../../actions/phrase';
+import { get_myPhrases } from '../../actions/phrase';
 
 const Phrase = () => {
     const [phrases, setPhrases] = React.useState(null);
@@ -25,7 +25,7 @@ const Phrase = () => {
     const getPhrases = () => {
         const userData = JSON.parse(localStorage.getItem("user_data"));
         const data = { creator: userData.user_id }
-        post_getMyPhrases(
+        get_myPhrases(
             data,
             (success) => setPhrases(success.data),
             () => setPhrases([])

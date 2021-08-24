@@ -1,7 +1,7 @@
 import axios from "axios"
 import { API } from "../contants/Url"
 
-const post_createPhrase = (data, callbackSuccess, callbackError) => {
+const post_phrase = (data, callbackSuccess, callbackError) => {
     axios.post(`https://en-p.herokuapp.com${API.PHRASE_CREATE}`, data)
         .then((success) => {
             callbackSuccess && callbackSuccess(success);
@@ -11,8 +11,8 @@ const post_createPhrase = (data, callbackSuccess, callbackError) => {
         });
 }
 
-const post_getPhrase = (data, callbackSuccess, callbackError) => {
-    axios.post(`https://en-p.herokuapp.com${API.PHRASE_VIEW}`, data)
+const get_phrase = (data, callbackSuccess, callbackError) => {
+    axios.post(`https://en-p.herokuapp.com${API.PHRASE_VIEW}/${data}`)
         .then((success) => {
             callbackSuccess && callbackSuccess(success);
         })
@@ -41,8 +41,8 @@ const put_phrase = (data, callbackSuccess, callbackError) => {
         });
 }
 
-const post_getMyPhrases = (data, callbackSuccess, callbackError) => {
-    axios.post(`https://en-p.herokuapp.com${API.PHRASE_GETMINE}`, data)
+const get_myPhrases = (data, callbackSuccess, callbackError) => {
+    axios.post(`https://en-p.herokuapp.com${API.PHRASE_GETMINE}/${data}`)
         .then((success) => {
             callbackSuccess && callbackSuccess(success);
         })
@@ -51,4 +51,4 @@ const post_getMyPhrases = (data, callbackSuccess, callbackError) => {
         });
 }
 
-export { post_createPhrase, post_getPhrase, delete_phrase, put_phrase, post_getMyPhrases }
+export { post_phrase, get_phrase, delete_phrase, put_phrase, get_myPhrases }

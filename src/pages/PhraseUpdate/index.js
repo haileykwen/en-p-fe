@@ -11,7 +11,7 @@ import {
     Textarea,
   } from "@chakra-ui/react"
 import { URL } from '../../contants/Url';
-import { post_getPhrase, put_phrase } from '../../actions/phrase';
+import { get_phrase, put_phrase } from '../../actions/phrase';
 
 const PhraseUpdate = () => {
     const [phraseId, setPhraseId] = React.useState("");
@@ -51,7 +51,7 @@ const PhraseUpdate = () => {
 
     const getPhrase = () => {
         const data = { phrase_id: params.slug }
-        post_getPhrase(
+        get_phrase(
             data,
             (success) => {
                 // console.log({success});
