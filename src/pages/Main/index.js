@@ -32,7 +32,7 @@ const Main = () => {
         <BrowserRouter>
             <ChakraHeader userData={userData} onSignOut={onSignOut} />
             <Switch>
-                <Route path="/" render={() => <Redirect to={URL.MAIN} />} exact />
+                <Route exact path={URL.SLASH} render={() => <Redirect to={URL.MAIN} />} />
                 <PrivateRoute exact path={URL.MAIN} component={Phrase} />
                 <PrivateRoute exact path={URL.PHRASE_DETAIL} component={PhraseDetail} />
                 <PrivateRoute exact path={URL.PHRASE_CREATE} component={PhraseCreate} />

@@ -7,9 +7,9 @@ import { URL } from "../contants/Url";
 const Routes = () => {
     return (
         <Switch>
+            <PrivateRoute path={URL.SLASH} component={Main} />
             <PublicRoute path={URL.SIGNIN} component={SignIn}/>
             <PublicRoute path={URL.SIGNUP} component={SignUp}/>
-            <PrivateRoute path={URL.SLASH} component={Main} />
         </Switch>
     )
 }
