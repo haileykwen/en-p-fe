@@ -50,9 +50,8 @@ const PhraseUpdate = () => {
     }, []);
 
     const getPhrase = () => {
-        const data = { phrase_id: params.slug }
         get_phrase(
-            data,
+            params.slug,
             (success) => {
                 // console.log({success});
                 let resp = success.data[0];
