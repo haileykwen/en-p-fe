@@ -42,7 +42,7 @@ const put_phrase = (data, callbackSuccess, callbackError) => {
 }
 
 const get_myPhrases = (data, callbackSuccess, callbackError) => {
-    axios.get(`https://en-p.herokuapp.com${API.PHRASE_GETMINE}/${data}`)
+    axios.post(`https://en-p.herokuapp.com${API.PHRASE_GETMINE}`, data)
         .then((success) => {
             callbackSuccess && callbackSuccess(success);
         })
