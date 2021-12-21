@@ -46,32 +46,34 @@ const PhraseCreate = () => {
         let tempor = [];
         conversation.map((item, itemIndex) => {
             if (itemIndex !== index) {
-                tempor.push(item);
+                return tempor.push(item);
             } else {
                 let temporChat = [];
                 item.map((chat, chatIndex) => {
                     if (chatIndex !== indexChat) {
-                        temporChat.push(chat);
+                        return temporChat.push(chat);
                     }
+                    return null;
                 });
-                tempor.push(temporChat);
+                return tempor.push(temporChat);
             }
         });
-        setConversation(tempor);
+        return setConversation(tempor);
     }
 
     const addChat = (index) => {
+        // eslint-disable-next-line
         let tempor = [];
         conversation.map((item, itemIndex) => {
             if (itemIndex !== index) {
-                tempor.push(item);
+                return tempor.push(item);
             } else {
                 let temporChat = [];
                 item.map((chat, chatIndex) => {
-                    temporChat.push(chat);
+                    return temporChat.push(chat);
                 });
                 temporChat.push(statementExampleInitialValue[0]);
-                tempor.push(temporChat);
+                return tempor.push(temporChat);
             }
         });
         setConversation(tempor);
@@ -81,8 +83,9 @@ const PhraseCreate = () => {
         let tempor = [];
         conversation.map((item, idx) => {
             if (idx !== index) {
-                tempor.push(item);
+                return tempor.push(item);
             }
+            return null;
         });
         setConversation(tempor);
     }

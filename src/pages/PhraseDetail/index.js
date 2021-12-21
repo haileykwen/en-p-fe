@@ -35,6 +35,8 @@ const PhraseDetail = () => {
     React.useEffect(() => {
         // console.log(params);
         getPhrase(params.slug);
+
+        // eslint-disable-next-line
     }, []);
 
     const getPhrase = (id) => {

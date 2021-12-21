@@ -19,6 +19,8 @@ const Main = () => {
         } else {
             history.replace(`${URL.SIGNIN}`);
         }
+
+        // eslint-disable-next-line
     }, []);
 
     const onSignOut = () => {
